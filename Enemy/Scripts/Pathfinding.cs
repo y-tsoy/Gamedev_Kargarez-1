@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Mathematics;
-using Unity.Jobs;
 using Unity.Collections;
 
 public class Pathfinding : MonoBehaviour
@@ -12,30 +11,19 @@ public class Pathfinding : MonoBehaviour
     private const int MOVE_DIAGONAL_COST = 14;
 
     private void Start() {
-        int findPathJobCount = 10000;
-        NativeArray<JobHandle> jobHandleArray = new NativeArray<JobHandle>(findPathJobCount, Allocator.TempJob);
+        int findPathJobCount = 100;
 
         for (int i = 0; i < findPathJobCount; i++)
         {
-            FindPathJob findPathJob = new FindPathJob
-            {
-                startPosition = new int2(0, 0),
-                endPosition = new int2(99, 99)
-            };
-            jobHandleArray[i] = findPathJob.Schedule();
+            FindPath(new int2(0, 0) , new int2(99, 99), new int2(100, 100));
         }
 
-        JobHandle.CompleteAll(jobHandleArray);
-        jobHandleArray.Dispose();
     }
 
-    private struct FindPathJob : IJob {
+    
 
-        public int2 startPosition;
-        public int2 endPosition;
-
-        public void Execute() {
-            int2 gridSize = new int2(100, 100);
+    public void FindPath(int2 startPosition, int2 endPosition, int2 gridSize) 
+    { 
             NativeArray<PathNode> pathNodeArray = new NativeArray<PathNode>(gridSize.x * gridSize.y, Allocator.Temp);
 
             //Инициализация массива всех нод
@@ -57,20 +45,6 @@ public class Pathfinding : MonoBehaviour
                     pathNodeArray[pathNode.index] = pathNode;
                 }
             }
-
-            /*{
-                PathNode walkCostPathNode = pathNodeArray[CalculateIndex(1, 0, gridSize.x)];
-                walkCostPathNode.SetWalkCost(-1);
-                pathNodeArray[CalculateIndex(1, 0, gridSize.x)] = walkCostPathNode;
-
-                walkCostPathNode = pathNodeArray[CalculateIndex(1, 1, gridSize.x)];
-                walkCostPathNode.SetWalkCost(-1);
-                pathNodeArray[CalculateIndex(1, 1, gridSize.x)] = walkCostPathNode;
-
-                walkCostPathNode = pathNodeArray[CalculateIndex(1, 2, gridSize.x)];
-                walkCostPathNode.SetWalkCost(-1);
-                pathNodeArray[CalculateIndex(1, 2, gridSize.x)] = walkCostPathNode;
-            }*/
 
             NativeArray<int2> neighbourOffsetArray = new NativeArray<int2>(new int2[] {
             new int2(-1, 0),
@@ -172,7 +146,7 @@ public class Pathfinding : MonoBehaviour
 
                 foreach (int2 pathPosition in path)
                 {
-                    //Debug.Log(pathPosition);
+                    Debug.Log(pathPosition);
                 }
 
                 path.Dispose();
@@ -271,5 +245,4 @@ public class Pathfinding : MonoBehaviour
                 walkCost = cost;
             }
         }
-    }
 }

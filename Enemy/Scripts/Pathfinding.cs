@@ -4,25 +4,22 @@ using UnityEngine;
 using Unity.Mathematics;
 using Unity.Collections;
 
-public class Pathfinding : MonoBehaviour
+public class Pathfinding
 {
 
     private const int MOVE_STRAIGHT_COST = 10;
     private const int MOVE_DIAGONAL_COST = 14;
 
-    private void Start() {
-        int findPathJobCount = 100;
+    private int2 gridSize;
 
-        for (int i = 0; i < findPathJobCount; i++)
-        {
-            FindPath(new int2(0, 0) , new int2(99, 99), new int2(100, 100));
-        }
-
+    public Pathfinding(int2 gridSize)
+    { 
+        this.gridSize = gridSize;
     }
 
     
 
-    public void FindPath(int2 startPosition, int2 endPosition, int2 gridSize) 
+    public void FindPath(int2 startPosition, int2 endPosition, Grid<SbyteGridObject> costGrid) 
     { 
             NativeArray<PathNode> pathNodeArray = new NativeArray<PathNode>(gridSize.x * gridSize.y, Allocator.Temp);
 
@@ -39,7 +36,8 @@ public class Pathfinding : MonoBehaviour
                     pathNode.gCost = int.MaxValue;
                     pathNode.hCost = CalculateDistanceCost(new int2(x, y), endPosition);
                     pathNode.CalculateFCost();
-                    pathNode.walkCost = 0;
+                    SbyteGridObject costGridObject = costGrid.GetGridObject(x, y);
+                    pathNode.walkCost = costGridObject.GetValue();
                     pathNode.cameFromNodeIndex = -1;
 
                     pathNodeArray[pathNode.index] = pathNode;
@@ -55,7 +53,7 @@ public class Pathfinding : MonoBehaviour
             new int2(-1, +1),
             new int2(+1, -1),
             new int2(+1, +1),
-        }, Allocator.Temp);
+            }, Allocator.Temp);
 
             int endNodeIndex = CalculateIndex(endPosition.x, endPosition.y, gridSize.x);
 
@@ -219,30 +217,5 @@ public class Pathfinding : MonoBehaviour
                 }
             }
             return lowestCostPathNode.index;
-        }
-
-        private struct PathNode
-        {
-            public int x;
-            public int y;
-
-            public int index;
-
-            public int gCost; //Стоймость всего пройденого пути до этой ноды
-            public int hCost; //Примерная стоймость от этой ноды до конца
-            public int fCost; //Приоритет пути (g + h)
-
-            public sbyte walkCost;//Стоймость передвижения по этой клетке (-1 - передвижение не возможно)
-
-            public int cameFromNodeIndex;
-
-            public void CalculateFCost()
-            {
-                fCost = gCost + hCost;
-            }
-            public void SetWalkCost(sbyte cost)
-            {
-                walkCost = cost;
-            }
         }
 }

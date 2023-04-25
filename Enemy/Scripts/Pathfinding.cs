@@ -19,7 +19,7 @@ public class Pathfinding
 
     
 
-    public void FindPath(int2 startPosition, int2 endPosition, Grid<SbyteGridObject> costGrid) 
+    public int2[] FindPath(int2 startPosition, int2 endPosition, Grid<SbyteGridObject> costGrid) 
     { 
             NativeArray<PathNode> pathNodeArray = new NativeArray<PathNode>(gridSize.x * gridSize.y, Allocator.Temp);
 
@@ -37,7 +37,7 @@ public class Pathfinding
                     pathNode.hCost = CalculateDistanceCost(new int2(x, y), endPosition);
                     pathNode.CalculateFCost();
                     SbyteGridObject costGridObject = costGrid.GetGridObject(x, y);
-                    pathNode.walkCost = costGridObject.GetValue();
+                    pathNode.SetWalkCost(costGridObject.GetValue());
                     pathNode.cameFromNodeIndex = -1;
 
                     pathNodeArray[pathNode.index] = pathNode;
@@ -133,29 +133,40 @@ public class Pathfinding
             }
 
             PathNode endNode = pathNodeArray[endNodeIndex];
+            int2[] pathArray;
             if (endNode.cameFromNodeIndex == -1)
             {
-                //Не нашли путь
-            }
-            else
-            {
+            //Не нашли путь
+                pathArray = new int2[1];
+                pathArray[0] = new int2(-1, -1);
+
+                openList.Dispose();
+                neighbourOffsetArray.Dispose();
+                closeList.Dispose();
+                pathNodeArray.Dispose();
+
+            return pathArray;
+            } else {
                 //Нашли путь
                 NativeList<int2> path = CalculatePath(pathNodeArray, endNode);//Ноды пути
 
-                foreach (int2 pathPosition in path)
-                {
-                    Debug.Log(pathPosition);
-                }
+            pathArray = new int2[path.Length];
 
-                path.Dispose();
+            int j = 0;
+            for(int i = path.Length - 1; i >= 0; i--)
+            {
+                pathArray[j] = path[i];
+                j++;
             }
-
-
 
             openList.Dispose();
             neighbourOffsetArray.Dispose();
             closeList.Dispose();
             pathNodeArray.Dispose();
+            path.Dispose();
+
+            return pathArray;
+            }
         }
 
         private NativeList<int2> CalculatePath(NativeArray<PathNode> pathNodeArray, PathNode endNode)
@@ -178,7 +189,6 @@ public class Pathfinding
                     path.Add(new int2(cameFromNode.x, cameFromNode.y));
                     currentNode = cameFromNode;
                 }
-
                 return path;
             }
         }

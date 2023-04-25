@@ -13,7 +13,16 @@ public class TestEnemy : MonoBehaviour
     {
         this.grid = new Grid<SbyteGridObject>(10, 10, 2, Vector3.zero, (Grid<SbyteGridObject> g, int x, int y) => new SbyteGridObject(g, x, y));
         Pathfinding pathfinding = new Pathfinding(new int2(10, 10));
-        pathfinding.FindPath(new int2(0, 0), new int2(9, 9), grid);
+        for (int x = 0; x < 10; x++) {
+            for (int y = 0; y < 10; y++)
+            {
+                SbyteGridObject costGridObject = grid.GetGridObject(x, y);
+                costGridObject.value = 0;
+                grid.SetGridObject(x, y,costGridObject);
+            }
+        }
+
+        Debug.Log(pathfinding.FindPath(new int2(0, 0), new int2(9, 9), grid)[0]);
     }
 
     // Update is called once per frame

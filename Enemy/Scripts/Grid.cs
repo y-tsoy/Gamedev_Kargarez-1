@@ -47,7 +47,7 @@ public class Grid<TGridObject> {
 
                     textMeshArray[x, y] = textArray[x, y].AddComponent<TextMeshPro>();
                     textMeshArray[x, y].text = gridArray[x, y]?.ToString();
-                    textMeshArray[x, y].fontSize = 8;
+                    textMeshArray[x, y].fontSize = 2;
                     textMeshArray[x, y].alignment = TextAlignmentOptions.Center;
 
                     Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), Color.white, 100f);
@@ -79,7 +79,7 @@ public class Grid<TGridObject> {
         return new Vector3(x, y) * cellSize + originPosition;
     }
 
-    private void GetXY(Vector3 worldPosition, out int x, out int y) {
+     public void GetXY(Vector3 worldPosition, out int x, out int y) {
         x = Mathf.FloorToInt((worldPosition - originPosition).x / cellSize);
         y = Mathf.FloorToInt((worldPosition - originPosition).y / cellSize);
     }

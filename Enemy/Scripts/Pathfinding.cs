@@ -137,8 +137,7 @@ public class Pathfinding
             if (endNode.cameFromNodeIndex == -1)
             {
             //Не нашли путь
-                pathArray = new int2[1];
-                pathArray[0] = new int2(-1, -1);
+                pathArray = null;
 
                 openList.Dispose();
                 neighbourOffsetArray.Dispose();

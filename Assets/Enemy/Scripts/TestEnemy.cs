@@ -3,29 +3,50 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Mathematics;
 using Unity.Collections;
+using UnityEngine.Tilemaps;
 
 public class TestEnemy : MonoBehaviour
 {
     private Grid<SbyteGridObject> grid;
     private int2[] path;
     private int pathIndex = 0;
-    private float cellSize = 0.5f;
-    private int2 gridSize = new int2(10, 10);
+    private float cellSize = 1f;
+    private int2 gridSize = new int2(50, 50);
     private Pathfinding pathfinding;
     public float speed = 4;
-    
+    NativeArray<PathNode> pathNodeArray;
     void Start()
     {
+
+        TileTest tileTest = FindObjectOfType<TileTest>();
+        BoundsInt bounds = tileTest.GetComponent<TileTest>().GetBounds();
+        TileBase[] tileBase = tileTest.GetTileBase();
+
         this.grid = new Grid<SbyteGridObject>(gridSize.x, gridSize.y, cellSize, Vector3.zero, (Grid<SbyteGridObject> g, int x, int y) => new SbyteGridObject(g, x, y));
-        pathfinding = new Pathfinding(new int2(gridSize.x, gridSize.y));
         for (int x = 0; x < gridSize.x; x++) {
             for (int y = 0; y < gridSize.y; y++)
             {
-                SbyteGridObject costGridObject = grid.GetGridObject(x, y);
-                costGridObject.value = 0;
-                grid.SetGridObject(x, y,costGridObject);
+                    SbyteGridObject costGridObject = grid.GetGridObject(x, y);
+                    costGridObject.value = 0;
+                    grid.SetGridObject(x, y, costGridObject);
             }
         }
+
+        for (int x = 0; x < bounds.size.x; x++)
+        {
+            for (int y = 0; y < bounds.size.y; y++)
+            {
+                TileBase tile = tileBase[x + y * bounds.size.x];
+                if (tile != null)
+                {
+                    SbyteGridObject costGridObject = grid.GetGridObject(x, y);
+                    costGridObject.value = -1;
+                    grid.SetGridObject(x, y, costGridObject);
+                }
+            }
+        }
+        pathfinding = new Pathfinding(new int2(gridSize.x, gridSize.y));
+
     }
 
     void Update()
@@ -33,6 +54,7 @@ public class TestEnemy : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            
             grid.GetXY(transform.position, out int xStart, out int yStart);
             grid.GetXY(mouseWorldPosition, out int x, out int y);
             path = pathfinding.FindPath(new int2(xStart, yStart), new int2(x, y), grid);

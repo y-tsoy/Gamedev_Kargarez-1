@@ -2915,7 +2915,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1183483897}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.36, y: 6.73, z: 0}
+  m_LocalPosition: {x: 13.47, y: 6.65, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6721,10 +6721,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2138857994}
   - component: {fileID: 2138857993}
-  - component: {fileID: 2138857992}
   - component: {fileID: 2138857996}
   - component: {fileID: 2138857995}
   - component: {fileID: 2138857997}
+  - component: {fileID: 2138857998}
   m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
@@ -6732,19 +6732,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2138857992
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2138857991}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58ab54a3ecc41134994f4b5b28497248, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 4.9
 --- !u!212 &2138857993
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6805,7 +6792,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2138857991}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 13.89, y: 7.87, z: -0.01335315}
+  m_LocalPosition: {x: 11.82, y: 7.38, z: -0.01335315}
   m_LocalScale: {x: 0.5011677, y: 0.57203835, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6866,7 +6853,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2138857991}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 06ba00d59f9093c4388bd718490b68b7, type: 3}
   m_Name: 
@@ -6875,3 +6862,19 @@ MonoBehaviour:
   Companion: {fileID: 2138857991}
   rb: {fileID: 2138857995}
   FlySpeed: 1
+--- !u!114 &2138857998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2138857991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58ab54a3ecc41134994f4b5b28497248, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CooldownTime: 5
+  speedOfFoll: 5
+  speedOfThrow: 5
+  rb: {fileID: 0}

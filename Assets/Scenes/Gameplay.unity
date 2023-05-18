@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3165,7 +3165,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1446491481
-  m_SortingLayer: 0
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -6858,8 +6858,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06ba00d59f9093c4388bd718490b68b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firepoint: {fileID: 0}
+  Companion: {fileID: 2138857991}
   rb: {fileID: 2138857995}
-  speedOfThrow: 10
+  FlySpeed: 1
 --- !u!114 &2138857998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6867,16 +6869,10 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2138857991}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58ab54a3ecc41134994f4b5b28497248, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-<<<<<<< Updated upstream
-=======
   speedOfFoll: 5
->>>>>>> Stashed changes
   rb: {fileID: 0}
-  speedOfFoll: 5
-  CooldownTime: 5
-  speedOfThrow: 5

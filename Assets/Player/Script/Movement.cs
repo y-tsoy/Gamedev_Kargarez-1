@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+
+
 public class Movement : MonoBehaviour
 {
 
@@ -31,4 +33,6 @@ public class Movement : MonoBehaviour
     {
         rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
     }
+
+
 }

@@ -10,7 +10,7 @@ namespace GoodiesForFollowing
         public Transform firepoint;
         public GameObject Companion;
         public Rigidbody2D rb;
-        public float FlySpeed = 1f;
+        public float FlySpeed = 5f;
         //Переменная для фиксации состояния "Кастую ульту"
         public static bool isThrown = false;
         private Vector2 startPosition;
@@ -29,10 +29,11 @@ namespace GoodiesForFollowing
         void Update()
         {
 
-            if (Input.GetButtonDown("Fire1"))
+            if (Input.GetButtonDown("Fire1") && !isThrown)
             {
                 //Начинает кастовать
                 isThrown = true;
+                startPosition = transform.position;
                 endPosition = new Vector2(startPosition.x + targetX, startPosition.y);
             }
             //Пока кастует..
@@ -40,7 +41,7 @@ namespace GoodiesForFollowing
             {
                 //Делает все вычисления, передвигается, всё чики пуки
                 startPosition = transform.position;
-                targetX = 3f;
+                targetX = 5f;
                 transform.position = Vector2.MoveTowards(startPosition, endPosition, FlySpeed * Time.deltaTime);
 
                 //И когда дистанция сократилась достаточно...
@@ -51,7 +52,6 @@ namespace GoodiesForFollowing
                     isThrown = false;
                 }
             }
-
 
         }
 
